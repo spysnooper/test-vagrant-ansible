@@ -1,23 +1,31 @@
 ---
-- hosts: all
-  become: yes
-  remote_user: vagrant
-  become_method: sudo
-  pre_tasks:
-    - name: "install EPEL repo"
-      package: name="epel-release" state="latest"
-    
-  tasks:
-    - name: "update packages"
-      package: name="*" state="latest"
+# Playbook ROLESs for ALL HOSTs
 
-    - name: "install packages"
-      package:
-        name: "{{ item }}"
-        state: "latest"
-      with_items:
-        - mc
-        - tree
-        - libselinux-python
-        - git
-        - ansible
+- name: Playbook ROLE for SERVERS
+  hosts: servers
+  remote_user: vagrant
+  become: yes
+  roles:
+    - common
+
+- name: Playbook ROLE for NFS Server
+  hosts: nfs-server
+  remote_user: vagrant
+  become: yes
+  roles:
+    - nfs-server
+    
+- name: Playbook ROLE for WebServers
+  hosts: webservers
+  remote_user: vagrant
+  become: yes
+  roles:
+    - webservers
+
+- name: Playbook ROLE for LoadBalancers
+  hosts: loadbalancers
+  remote_user: vagrant
+  become: yes
+  roles:
+    - loadbalancers
+
