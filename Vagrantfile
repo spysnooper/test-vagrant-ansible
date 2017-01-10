@@ -57,7 +57,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         "servers:children" => ["loadbalancers", "webservers", "nfs-server"]
       }
       ansible.playbook = "./ansible/playbook.yml"
-      ansible.verbose = 'vvvv'
+      ansible.verbose = 'v'
     end		# end ansible
   end 		# end i
 end 		# end config
