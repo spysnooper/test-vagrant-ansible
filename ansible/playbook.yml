@@ -21,6 +21,9 @@
   become: yes
   roles:
     - webservers
+  tags:
+    - apache
+    - app-node
 
 - name: Playbook ROLE for LoadBalancers
   hosts: loadbalancers
@@ -28,4 +31,7 @@
   become: yes
   roles:
     - loadbalancers
+  tags:
+    - nginx
+    - lb-node
 
