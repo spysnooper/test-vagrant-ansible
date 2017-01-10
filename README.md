@@ -17,3 +17,13 @@ Para provisionar con libvirt es necesario instalar un plugin de vagrant
 Para establecer el proxy en las maquinas virtuales es necesario vagrant-proxyconf
 #sudo vagrant plugin install vagrant-proxyconf
 
+vagrant destroy
+rm -vfr .vagrant/
+vagrant up
+
+
+vagrant provision
+o
+ansible-playbook --private-key=~/.vagrant.d/insecure_private_key -u vagrant -i .vagrant/provisioners/ansible/inventory playbook.yml
+ansible-playbook --private-key=.vagrant/machines/default/virtualbox/private_key -u vagrant -i .vagrant/provisioners/ansible/inventory playbook.yml
+
