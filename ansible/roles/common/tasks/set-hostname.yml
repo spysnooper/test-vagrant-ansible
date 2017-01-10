@@ -1,3 +1,3 @@
 ---
  - name: HOSTNAME | setting hostname
-   hostname: name={{host_name}}
+   hostname: name="{{ host_name }}"

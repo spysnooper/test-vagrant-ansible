@@ -1,4 +1,3 @@
 ---
-- name: PING
-  ping:
+- ping:
   register: hostname

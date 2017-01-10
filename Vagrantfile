@@ -2,6 +2,8 @@
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
+VAGRANT_PROXY_HTTP = "http://192.168.121.1:13128/"
+VAGRANT_PROXY_HTTPS = "http://192.168.121.1:13128/"
 VAGRANT_STORAGE_POOL = "maquinas_virtuales-1"
 
 Vagrant.require_version ">= 1.8.0"
@@ -40,14 +42,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     config.vm.define "#{vm_name}" do |node|
       node.vm.hostname = "#{vm_name}"
-      node.vm.provider :libvirt do |domain|
-        domain.uri = 'qemu+unix:///system'
-        domain.driver = 'kvm'
-        domain.storage_pool_name = VAGRANT_STORAGE_POOL
-        domain.memory = "#{vm_memory}".to_i
-        domain.cpus = 1
-      end	# end domain
+      if Vagrant.has_plugin?("vagrant-libvirt")
+        node.vm.provider :libvirt do |domain|
+          domain.uri = 'qemu+unix:///system'
+          domain.driver = 'kvm'
+          domain.storage_pool_name = VAGRANT_STORAGE_POOL
+          domain.memory = "#{vm_memory}".to_i
+          domain.cpus = 1
+        end	# end domain
+      end	# end if
     end		# end node
+
+# Las Maquinas virtuales salen a internet con mi proxy cntlm
+    if Vagrant.has_plugin?("vagrant-proxyconf")
+      config.proxy.http     = VAGRANT_PROXY_HTTP
+      config.proxy.https    = VAGRANT_PROXY_HTTPS
+      config.proxy.no_proxy = "localhost,127.0.0.1,.example.com"
+      config.proxy.enabled  = true
+    end
 
     config.vm.provision :ansible do |ansible|
       ansible.groups = {
