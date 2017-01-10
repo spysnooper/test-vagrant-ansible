@@ -7,3 +7,6 @@
 
 # Vagrant stuff
 /.vagrant
+
+# Playbook Retries 
+/ansible/playbook.retry
